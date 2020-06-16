@@ -16,7 +16,7 @@ format and kept only data from after his inauguration.
 Next, I put each search term individually into [Google Trends
 (US)](https://trends.google.com/trends/?geo=US) in order to have each
 term on the same scale and downloaded the data. I then replaced rows
-with “&gt;1” for popularity with 0’s to make it easier to graph and put
+with “<1” for popularity with 0’s to make it easier to graph and put
 all of the trends data into a single dataframe.
 
     # Import and clean Google Trends data
