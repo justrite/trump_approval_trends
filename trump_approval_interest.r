@@ -20,19 +20,19 @@ interest$Week = as.Date(as.POSIXct(interest$Week, origin="1970-01-01"))
 interest = interest[which(interest$Week > "2017-01-20"),]
 
 if(nrow(interest[which(interest$Black.Lives.Matter == '<1'),]) > 0){
-    interest[which(interest$Black.Lives.Matter == '<1'),]$Black.Lives.Matter = 0
+    interest[which(interest$Black.Lives.Matter == '<1'),]$Black.Lives.Matter = 0.75
 }
 if(nrow(interest[which(interest$Charlottesville == '<1'),]) > 0){
-    interest[which(interest$Charlottesville == '<1'),]$Charlottesville = 0
+    interest[which(interest$Charlottesville == '<1'),]$Charlottesville = 0.75
 }
 if(nrow(interest[which(interest$Coronavirus == '<1'),]) > 0){
-    interest[which(interest$Coronavirus == '<1'),]$Coronavirus = 0
+    interest[which(interest$Coronavirus == '<1'),]$Coronavirus = 0.75
 }
 if(nrow(interest[which(interest$DACA == '<1'),]) > 0){
-    interest[which(interest$DACA == '<1'),]$DACA = 0
+    interest[which(interest$DACA == '<1'),]$DACA = 0.75
 }
 if(nrow(interest[which(interest$Mueller == '<1'),]) > 0){
-    interest[which(interest$Mueller == '<1'),]$Mueller = 0
+    interest[which(interest$Mueller == '<1'),]$Mueller = 0.75
 }
 
 # Plot the data
@@ -56,3 +56,25 @@ axis(side = 4, at = c(0, 25, 50, 75, 100))
 mtext("Google Trends Popularity", side = 4, line = 3, adj = 0.15)
 legend(0, 90, legend = c('Black Lives Matter', 'Charlottesville', 'Coronavirus', 'DACA', 'Mueller'), col = c('purple2', 'blue', 'green', 'orange', 'red'), lty = 1, lwd = 2, cex = 0.7, title = "Search Terms", bg = "#FFFFFF")
 title(sub="Data Sources: Google Trends, FiveThirtyEight", adj = 0, line = 3, cex.sub = 0.7)
+
+# Log scale version
+par(mar = c(5, 5, 3, 5))
+scatter.smooth(approval, ylim = c(20, 50), span = 1/30, col="#CCCCCC", ylab = "", yaxt = 'n', xlab = "Date", xaxt = 'n', main = "Donald Trump\'s Approval Rating Over Time Compared to Google Trends Popularity", lpars = c(lwd = 2))
+mtext("Trump Approval Rating (%)", side = 2, adj = 0.75, line = 3)
+axis(2, at = c(30, 35, 40, 45, 50))
+axis(1, tick = FALSE, approval$timestamp, format(approval$timestamp, "%b %Y"), cex.axis = 0.7)
+par(new = TRUE, ylog = TRUE)
+plot(interest$Coronavirus, col = "#FFFFFF", xaxt = 'n', yaxt = 'n', xlab = '', ylab = '', ylim = c(1, 10000), log = 'y')
+lines(interest$Coronavirus, xaxt = 'n', yaxt = 'n', xlab = '', ylab = '', col = 'green', lwd = 2, ylog = TRUE)
+par(new = TRUE)
+lines(interest$Black.Lives.Matter, xaxt = 'n', yaxt = 'n', xlab = '', ylab = '', col = 'purple2', lwd = 2)
+par(new = TRUE)
+lines(interest$Mueller, xaxt = 'n', yaxt = 'n', xlab = '', ylab = '', col = 'red', lwd = 2)
+par(new = TRUE)
+lines(interest$DACA, xaxt = 'n', yaxt = 'n', xlab = '', ylab = '', col = 'orange', lwd = 2)
+par(new = TRUE)
+lines(interest$Charlottesville, xaxt = 'n', yaxt = 'n', xlab = '', ylab = '', col = 'blue', lwd = 2)
+axis(side = 4, at = c(1, 10, 100))
+mtext("Google Trends Popularity (log scale)", side = 4, line = 3, adj = 0.05)
+legend(0, 150, legend = c('Black Lives Matter', 'Charlottesville', 'Coronavirus', 'DACA', 'Mueller'), col = c('purple2', 'blue', 'green', 'orange', 'red'), lty = 1, lwd = 2, cex = 0.7, title = "Search Terms", bg = "#FFFFFF")
+title(sub="Data Sources: FiveThirtyEight, Google Trends", adj = 0, line = 3, cex.sub = 0.7)
